@@ -1,0 +1,26 @@
+# TODO remove the need for this file, limiting what is copied in the Dockerfile.
+*
+.*
+
+!.eslintrc.js
+!.editorconfig
+!.coveragerc
+!.env*
+!.pylintrc
+!.prettierrc
+!.stylelintrc.json
+!.watchmanconfig
+!docker
+!dependencies
+!requirements
+!package.json
+!package-lock.json
+!apps
+!manage.py
+!config
+!Makefile
+!setup.cfg
+
+node_modules/
+**/__pycache__/
+venv

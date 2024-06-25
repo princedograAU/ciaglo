@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  backend:
+    container_name: ciaglo-django
+    image: ciaglo-django
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes: &django_volumes
+      - ./backend:/opt/ciaglo/backend:Z
+    depends_on:
+      - postgres
+      # - redis
+    env_file: &django_env_file
+      - .env
+    ports:
+      - "8000:8000"
+    restart: on-failure
+
+  postgres:
+    image: postgres:13.2-alpine
+    container_name: postgres
+    volumes:
+      - ./docker/data/postgres/data:/var/lib/postgresql/data:Z
+    environment:
+      - POSTGRES_USER=ciaglo
+      - POSTGRES_PASSWORD=ciaglo
+      - POSTGRES_DBNAME=ciaglo
+      - ALLOW_IP_RANGE=0.0.0.0/0
+    ports:
+      - "5434:5432"
+    expose:
+      - "5432"
+
+  # mailhog:
+  #   image: mailhog/mailhog
+  #   expose:
+  #     - 1025
+  #     - 8025
+  #   ports:
+  #     - "1025:1025" # SMTP port
+  #     - "8025:8025" # HTTP port
+
+  # redis:
+  #   image: redis:7.2.1-alpine
+  #   container_name: ciaglo-redis
+
+  # celery:
+  #   container_name: ciaglo-celery
+  #   image: ciaglo-django
+  #   command: python manage.py run_dev_celery_worker
+  #   volumes: *django_volumes
+  #   depends_on:
+  #     - redis
+  #   env_file: *django_env_file
+
+volumes:
+  media_root:
+
+networks:
+  default:
+    name: ciaglo
