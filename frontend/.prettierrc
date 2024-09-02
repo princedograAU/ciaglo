@@ -1,0 +1,8 @@
+{
+  "bracketSpacing": true,
+  "insertPragma": false,
+  "semi": true,
+  "useTabs": false,
+  "printWidth": 100,
+  "tabWidth": 2
+}

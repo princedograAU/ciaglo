@@ -1,16 +1,54 @@
-import { DefaultTheme } from 'styled-components';
+import { extendTheme } from '@chakra-ui/react';
 
-export const theme: DefaultTheme = {
+const theme = extendTheme({
   colors: {
-    primary: '#694F8E',
-    secondary: '#FFDFD6',
-    // tertiary: #E3A5C7,
-    // lighten: #B692C2,
-    success: '#28a745',
-    info: '#17a2b8',
-    warning: '#ffc107',
-    danger: '#dc3545',
-    light: '#f8f9fa',
-    dark: '#343a40',
+    brand: {
+      50: "#e2f2f3",
+      100: "#b6dfe1",
+      200: "#88cbcd",
+      300: "#5cb7b8",
+      400: "#40a7a7",
+      500: "#319795",
+      600: "#2d8a88",
+      700: "#2a7a77",
+      800: "#286a66",
+      900: "#224d49",
+      secondary: '#023047',
+    },
   },
-};
+  fonts: {
+    heading: `'Lato', sans-serif`,
+    body: `'Lato', sans-serif`,
+  },
+  components: {
+    Button: {
+      variants: {
+        solid: {
+          bg: 'brand.400',
+          color: 'white',
+          fontWeight: '700',
+          _hover: {
+            bg: 'brand.600',
+          },
+          _active: {
+            bg: 'brand.600'
+          }
+        },
+      },
+    },
+    Link: {
+      baseStyle: {
+        color: 'brand.primary',
+        _hover: {
+          color: 'brand.secondary',
+        },
+      },
+    },
+  },
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
+});
+
+export default theme;
