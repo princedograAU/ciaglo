@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from decouple import config
@@ -16,8 +17,9 @@ ALLOWED_HOSTS = []
 
 LOCAL_APPS = [
     "common.apps.CommonConfig",
-    "listing.apps.ListingConfig",
     "utils.apps.UtilsConfig",
+    "agency.apps.AgencyConfig",
+    "listing.apps.ListingConfig",
     "gql.apps.GqlConfig",
 ]
 
@@ -26,6 +28,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "drf_spectacular",
     "graphene_django",
+    "phonenumber_field",
 ]
 
 INSTALLED_APPS = [
@@ -140,6 +143,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
+
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

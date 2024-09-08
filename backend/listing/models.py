@@ -6,23 +6,31 @@ from common.models import Address, TimestampedModel
 User = get_user_model()
 
 
+class PropertyTypeChoices(models.TextChoices):
+    HOUSE = "HOUSE"
+    APARTMENT = "APARTMENT"
+    TOWNHOUSE = "TOWNHOUSE"
+    LAND = "LAND"
+    RETIREMENT = "RETIREMENT"
+
+
 class Property(TimestampedModel):
+    type = models.CharField(choices=PropertyTypeChoices.choices)
     title = models.CharField(max_length=255)
     description = models.TextField()
     address = models.OneToOneField(Address, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="properties")
-    num_bedrooms = models.IntegerField(default=0)
-    num_bathrooms = models.IntegerField(default=0)
+    number_of_bedrooms = models.IntegerField(default=0)
+    number_of_bathrooms = models.IntegerField(default=0)
     square_feet = models.IntegerField(default=0)
-    lot_size = models.FloatField(
+    area_size = models.FloatField(
         null=True, blank=True
     )  # Lot size in acres or square feet
     year_built = models.IntegerField(null=True, blank=True)
-    has_garage = models.BooleanField(default=False)
-    has_pool = models.BooleanField(default=False)
-    has_basement = models.BooleanField(default=False)
+    number_of_garage = models.IntegerField(default=0)
+    number_of_pool = models.IntegerField(default=0)
+    number_of_basement = models.IntegerField(default=0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
     class Meta:
@@ -40,6 +48,7 @@ class PropertyImage(models.Model):
 
 
 class Listing(TimestampedModel):
+    INACTIVE = "INACTIVE"
     AVAILABLE = "AVAILABLE"
     PENDING = "PENDING"
     SOLD = "SOLD"
@@ -48,17 +57,18 @@ class Listing(TimestampedModel):
 
     property = models.OneToOneField(Property, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    agent = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="listings"
+    listed_by = models.ForeignKey(
+        User,
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        related_name="listed_properties",
     )
-    status = models.CharField(max_length=50, choices=PROPERTY_STATUS, default=AVAILABLE)
+    status = models.CharField(max_length=50, choices=PROPERTY_STATUS, default=INACTIVE)
     listing_date = models.DateTimeField(auto_now_add=True)
     expiry_date = models.DateField(
         null=True, blank=True
     )  # Optional: When the listing expires
-    listed_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="listed_properties"
-    )
 
     def __str__(self):
         return f"Listing for {self.property.title} at ${self.price}"

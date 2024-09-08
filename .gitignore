@@ -110,7 +110,7 @@ local_settings.py
 # VS code
 .vscode
 
-**/media_root/
+**/media/
 
 # pyenv
 .python-version

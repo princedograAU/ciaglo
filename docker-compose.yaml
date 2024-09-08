@@ -22,7 +22,7 @@ services:
     image: postgres:13.2-alpine
     container_name: postgres
     volumes:
-      - ./docker/data/postgres/data:/var/lib/postgresql/data:Z
+      - pg-data:/var/lib/postgresql
     environment:
       - POSTGRES_USER=ciaglo
       - POSTGRES_PASSWORD=ciaglo
@@ -57,6 +57,7 @@ services:
 
 volumes:
   media_root:
+  pg-data:
 
 networks:
   default:
