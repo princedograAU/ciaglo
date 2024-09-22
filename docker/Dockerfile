@@ -9,27 +9,26 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install OS dependencies
 RUN apt-get update \
   && apt-get install -y \
-    binutils \
-    libproj-dev \
-    gdal-bin \
-    libgdal-dev \
-    sudo \
-    socat \
-    gdebi \
-    build-essential \
-    libpq-dev \
-    libpq5 \
-    xorg \
-    libssl-dev \
-    libxrender-dev \
-    xmlsec1 \
+  binutils \
+  libproj-dev \
+  gdal-bin \
+  libgdal-dev \
+  sudo \
+  socat \
+  gdebi \
+  build-essential \
+  libpq-dev \
+  libpq5 \
+  xorg \
+  libssl-dev \
+  libxrender-dev \
+  xmlsec1 \
   && rm -rf /var/lib/apt/lists/*
 
 # Create the application directory
 RUN mkdir \
   /opt/ciaglo \
   /opt/ciaglo/static \
-  /opt/ciaglo/media_root \
   /opt/storage
 
 VOLUME '/opt/static'

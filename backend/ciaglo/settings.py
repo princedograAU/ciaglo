@@ -1,16 +1,15 @@
 import os
 from pathlib import Path
 
+# TODO: get rid of decouple and use os.getenv()
 from decouple import config
 from dj_database_url import parse as db_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG")
 
 ALLOWED_HOSTS = []
@@ -151,3 +150,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery settings
+REDIS_HOST = config("REDIS_HOST")
+CELERY_BROKER_URL = f"{REDIS_HOST}/0"
+CELERY_RESULT_BACKEND = f"{REDIS_HOST}/1"
+CELERY_TIMEZONE = "UTC"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["application/json"]
