@@ -18,3 +18,5 @@ pillow>=10.4.0
 factory-boy>=3.3.0
 Faker>=26.0.0
 django-phonenumber-field[phonenumbers]>=8.0.0
+celery>=5.4.0
+redis>=5.0.8

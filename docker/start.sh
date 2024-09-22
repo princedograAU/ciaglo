@@ -13,9 +13,11 @@ set -o nounset
 # as it shows the actual commands with their arguments after any expansions and substitutions have taken place.
 set -o xtrace
 
+cd backend
+
 # make required migrations
-python backend/manage.py migrate --noinput
-python backend/manage.py create_first_admin_user
+python manage.py migrate --noinput
+python manage.py create_first_admin_user
 # add this in the production
-#python manage.py collectstatic --noinput
-python backend/manage.py runserver 0.0.0.0:8000
+# python manage.py collectstatic --clear --noinput
+python manage.py runserver 0.0.0.0:8000

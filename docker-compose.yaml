@@ -11,7 +11,7 @@ services:
       - ./backend:/opt/ciaglo/backend:Z
     depends_on:
       - postgres
-      # - redis
+      - redis
     env_file: &django_env_file
       - .env
     ports:
@@ -42,18 +42,20 @@ services:
   #     - "1025:1025" # SMTP port
   #     - "8025:8025" # HTTP port
 
-  # redis:
-  #   image: redis:7.2.1-alpine
-  #   container_name: ciaglo-redis
+  redis:
+    image: redis:latest
+    hostname: ciaglo-redis
+    ports:
+      - "6379:6379"
 
-  # celery:
-  #   container_name: ciaglo-celery
-  #   image: ciaglo-django
-  #   command: python manage.py run_dev_celery_worker
-  #   volumes: *django_volumes
-  #   depends_on:
-  #     - redis
-  #   env_file: *django_env_file
+  celery-worker:
+    container_name: ciaglo-celery-worker
+    image: ciaglo-django
+    command: docker/start_celery_worker.sh
+    volumes: *django_volumes
+    depends_on:
+      - redis
+    env_file: *django_env_file
 
 volumes:
   media_root:
